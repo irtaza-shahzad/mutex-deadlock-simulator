@@ -1,0 +1,8 @@
+deadlock-sim
+
+*.o
+
+*~
+
+.vscode/
+*.swp
