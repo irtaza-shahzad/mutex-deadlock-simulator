@@ -1,19 +1,19 @@
 # Deadlock Simulation using Pthreads in C
 
-This project simulates **resource allocation and deadlock** in a system with shared memory using POSIX threads (`pthreads`) and `mutex` locks.
+This is a simulation of **resource allocation and deadlock** in a system with shared memory using POSIX threads (`pthreads`) and `mutex` locks.
 
-## 🧠 Overview
+## Overview
 
 We simulate 5 shared resources (`R1` to `R5`) and 4 threads (`T1` to `T4`) that perform mathematical operations using these resources. Each thread locks a combination of resources in a fixed but different order — which creates a potential for deadlock.
 
-## ⚙️ How It Works
+## How It Works
 
 - Each shared resource is protected using a `pthread_mutex_t`.
 - Each thread performs basic mathematical operations using shared integers.
 - Threads sleep before acquiring additional locks to increase the chance of a deadlock.
 - A separate thread (`deadlock_func`) detects a deadlock if threads hang too long (e.g., 5 seconds).
 
-## 🧵 Threads & Resources
+## Threads & Resources
 
 | Thread | Resources Locked         | Operation               |
 |--------|--------------------------|--------------------------|
@@ -24,7 +24,7 @@ We simulate 5 shared resources (`R1` to `R5`) and 4 threads (`T1` to `T4`) that 
 
 This ordering can lead to a **circular wait**, thus simulating a **deadlock** scenario.
 
-## 📸 Example Output
+## Example Output
 
 ```bash
 Shared Resources: 
@@ -37,62 +37,39 @@ R1 = 2, R2 = 6, R3 = 12, R4 = 13, R5 = 12
 ...
 [WARNING]: Deadlock Detected!
 Exiting...
+```
 
-🛠️ Deadlock Simulation Method
-To simulate a realistic deadlock:
+## Deadlock Simulation Method
+***To simulate a realistic deadlock:***
 
-Each thread performs a sleep(1) after acquiring its first lock to let other threads interleave and acquire locks in a conflicting order.
+- Each thread performs a sleep(1) after acquiring its first lock to let other threads interleave and acquire locks in a conflicting order.
+- This creates a circular wait condition, the final ingredient for deadlock.
 
-This creates a circular wait condition, the final ingredient for deadlock.
-
-⏳ Deadlock Detection
+## Deadlock Detection
 A separate thread is created that waits 5 seconds:
 
-c
-Copy
-Edit
+```bash
 sleep(5);
 printf("[WARNING]: Deadlock Detected! Exiting...\n");
 exit(EXIT_FAILURE);
+```
 If the main threads are blocked due to circular wait, this thread will detect the stall and exit the program.
 
-📁 File Structure
-bash
-Copy
-Edit
+## File Structure
+```bash
 deadlock-sim/
 │
 ├── deadlock-sim.c       # Source code
 ├── deadlock-sim         # Compiled binary
 ├── README.md            # Project documentation
 ├── .gitignore           # Git ignore rules
-🚫 .gitignore
-gitignore
-Copy
-Edit
-deadlock-sim
-*.o
-🚀 Build and Run
-bash
-Copy
-Edit
-gcc deadlock-sim.c -o deadlock-sim -lpthread
+```
+## Build and Run
+```bash
+gcc deadlock-sim.c -o deadlock-sim
 ./deadlock-sim
-✅ Requirements
-GCC
-
-pthreads (-lpthread)
-
-Linux/Unix-based system
-
-📚 Concepts Demonstrated
-Deadlock in multithreading
-
-Mutex-based resource locking
-
-Race conditions & circular wait
-
-Deadlock detection
-
-🧑‍💻 Author
-Irtaza Shahzad
+```
+## Requirements
+- GCC
+- pthreads
+- Linux/Unix-based system
